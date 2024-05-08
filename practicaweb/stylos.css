@@ -1,0 +1,22 @@
+h3{
+    background-color: aqua;
+    color: rgb(20, 240, 75)
+
+    
+}
+body input [type='text']
+{
+    background-color: aquamarine;
+    color: green;
+
+}
+
+.contenido 
+{
+    background-color: gray;
+  
+    align-content: center;
+    
+}
+
+

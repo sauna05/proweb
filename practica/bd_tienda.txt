@@ -1,0 +1,118 @@
+CREATE DATABASE tienda_online;
+USE tienda_online;
+
+-- Crear la tabla de Productos
+CREATE TABLE Productos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  descripcion TEXT,
+  precio DECIMAL(10,2) NOT NULL,
+  categoria VARCHAR(50) NOT NULL
+);
+
+-- Crear la tabla de Usuarios
+CREATE TABLE Usuarios (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  contrasena VARCHAR(255) NOT NULL
+);
+SELECT * FROM productos;
+
+SELECT * FROM productos WHERE categoria ='Condimentos';
+
+
+-- Crear la tabla de Carrito
+CREATE TABLE Carrito (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NOT NULL,
+  id_producto INT NOT NULL,
+  cantidad INT NOT NULL,
+  FOREIGN KEY (id_usuario) REFERENCES Usuarios(id),
+  FOREIGN KEY (id_producto) REFERENCES Productos(id)
+);
+
+
+SELECT * FROM productos;
+SELECT * FROM carrito;
+SELECT * FROM usuarios;
+
+
+SELECT u.nombre, p.nombre, SUM(p.precio * c.cantidad) AS total_precio, SUM(c.cantidad) AS cantidad_comprada
+FROM productos p
+INNER JOIN carrito c ON p.id = c.id_producto
+INNER JOIN usuarios u ON c.id_usuario = u.id
+WHERE u.id = 2
+GROUP BY u.nombre, p.nombre;
+
+SELECT SUM(p.precio * c.cantidad) AS total_A_pagar, SUM(c.cantidad) AS cantidad_comprada
+FROM productos p
+INNER JOIN carrito c ON p.id = c.id_producto
+WHERE c.id_usuario =2;
+
+
+
+
+
+
+
+SELECT * FROM carrito;
+SELECT * FROM usuarios;
+
+
+
+
+
+INSERT INTO Usuarios (nombre, email, contrasena) VALUES
+('Juan Perez', 'juan@example.com', 'contrasena123'),
+('María García', 'maria@example.com', 'password456'),
+('Pedro Ramirez', 'pedro@example.com', 'securepass789'),
+('Laura Martinez', 'laura@example.com', 'strongpassword');
+
+-- Insertar 50 productos de comida en la tabla de Productos
+/*INSERT INTO Productos (nombre, descripcion, precio, categoria) VALUES
+('Manzana', 'Manzana fresca y jugosa', 1.50, 'Frutas'),
+('Plátano', 'Plátano maduro y sabroso', 0.75, 'Frutas'),
+('Pera', 'Pera jugosa y dulce', 1.25, 'Frutas'),
+('Naranja', 'Naranja fresca y llena de vitamina C', 1.00, 'Frutas'),
+('Zanahoria', 'Zanahoria crujiente y saludable', 0.50, 'Verduras'),
+('Lechuga', 'Lechuga fresca y crujiente', 0.75, 'Verduras'),
+('Tomate', 'Tomate rojo y jugoso', 0.80, 'Verduras'),
+('Papa', 'Papa suave y deliciosa', 0.60, 'Verduras'),
+('Pollo', 'Pechuga de pollo fresca y magra', 3.50, 'Carnes'),
+('Carne de res', 'Carne de res tierna y jugosa', 4.00, 'Carnes'),
+('Pescado', 'Filete de pescado fresco y saludable', 5.50, 'Pescados'),
+('Salmón', 'Salmón fresco y rico en omega-3', 6.00, 'Pescados'),
+('Arroz', 'Arroz blanco y suave', 1.00, 'Granos'),
+('Frijoles', 'Frijoles negros cocidos y deliciosos', 1.50, 'Granos'),
+('Lentejas', 'Lentejas secas y nutritivas', 2.00, 'Granos'),
+('Pan integral', 'Pan integral recién horneado', 2.50, 'Panadería'),
+('Pan blanco', 'Pan blanco suave y esponjoso', 1.50, 'Panadería'),
+('Huevos', 'Huevos frescos de granja', 2.00, 'Lácteos'),
+('Leche', 'Leche entera fresca', 1.50, 'Lácteos'),
+('Queso', 'Queso cheddar maduro y delicioso', 3.00, 'Lácteos'),
+('Yogur', 'Yogur natural con frutas', 1.25, 'Lácteos'),
+('Mantequilla', 'Mantequilla suave y cremosa', 2.50, 'Lácteos'),
+('Aceite de oliva', 'Aceite de oliva virgen extra', 4.00, 'Aceites'),
+('Vinagre balsámico', 'Vinagre balsámico de calidad', 3.50, 'Condimentos'),
+('Sal marina', 'Sal marina gruesa y natural', 1.00, 'Condimentos'),
+('Azúcar moreno', 'Azúcar moreno natural', 1.50, 'Endulzantes'),
+('Miel', 'Miel pura y deliciosa', 3.00, 'Endulzantes'),
+('Café', 'Café molido de alta calidad', 5.00, 'Bebidas'),
+('Té verde', 'Té verde orgánico', 3.50, 'Bebidas'),
+('Agua mineral', 'Agua mineral natural', 0.75, 'Bebidas'),
+('Jugo de naranja', 'Jugo de naranja recién exprimido', 2.50, 'Bebidas'),
+('Galletas', 'Galletas de avena y pasas', 2.00, 'Snacks'),
+('Nueces', 'Nueces mixtas y saludables', 3.50, 'Snacks'),
+('Chocolate negro', 'Chocolate negro 70% cacao', 2.50, 'Dulces'),
+('Helado', 'Helado de vainilla cremoso', 4.00, 'Postres'),
+('Pastel de zanahoria', 'Pastel de zanahoria con crema de queso', 3.50, 'Postres'),
+('Gelatina', 'Gelatina de frutas frescas', 1.50, 'Postres'),
+('Sopa de pollo', 'Sopa de pollo casera', 2.50, 'Caldos'),
+('Caldo de verduras', 'Caldo de verduras natural', 2.00, 'Caldos'),
+('Salsa de tomate', 'Salsa de tomate casera', 1.50, 'Salsas'),
+('Salsa de soja', 'Salsa de soja tradicional', 2.00, 'Salsas'),
+('Salsa picante', 'Salsa picante de chiles frescos', 1.00, 'Salsas'),
+('Ensalada César', 'Ensalada César clásica', 3.00, 'Ensaladas'),
+('Ensalada de frutas', 'Ensalada de frutas frescas', 2.50, 'Ensaladas'),
+('Ensalada de quinoa', 'Ensalada de quinoa y vegetales', 4.00, 'Ensaladas');*/

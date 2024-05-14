@@ -8,7 +8,7 @@ class Conexion {
     public function __construct() {
         try {
             $this->conexion = new PDO($this->url, $this->usuario, $this->contrasena);
-            $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Establecer el modo de error para lanzar excepciones
+            //$this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Establecer el modo de error para lanzar excepciones
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
